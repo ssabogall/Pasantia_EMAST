@@ -22,4 +22,4 @@ Entrada = ["a","a","b","c","c","c","c","c","a","a","a"]
 resultado = comprimir_cadena(Entrada)
 print(resultado)
 
-#No me dio y necesitaba hacer otras cosas
+#No me dio la verdad pero creo que me centre mucho aqui y perdi mucho el tiempo en este ejercicio

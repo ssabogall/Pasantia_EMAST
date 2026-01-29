@@ -1,0 +1,28 @@
+
+contexto:Diseñe un sistema simple para notificar a los usuarios cuando un producto físico 
+vuelve a estar en stock.
+
+
+Describa brevemente qué estrategia usaría para enviar 10.000 correos 
+simultáneos sin bloquear la aplicación
+
+
+Respuesta:
+
+Mi idea es ordenar y poner en cola los correos para enviarlos poco a poco y de forma escalable, sin que la aplicación se quede colgada.
+- Prioridad: primero mandaría correos a los usuarios que ya tienen activadas las notificaciones 
+del producto. Después incluiría a los que han mostrado interés recientemente (búsquedas o visitas), enfocándonos 
+en quienes tienen más probabilidad de comprar. Todo esto se enviaría en lotes.
+Automatización: una consulta a la base de datos sacaría un JSON con los destinatarios y la plantilla 
+del correo, y eso alimentaría un sistema de colas o alguna herramienta de automatización (pueden ser herramientas .NET).
+- Encolado y procesamiento: la aplicación solo se encarga de crear los jobs, no de enviar correos 
+directamente. Luego, unos workers en segundo plano procesan esos jobs en paralelo y reparten la 
+carga.
+Envío escalable: usaría un proveedor de correo, junto con control de límites y manejo de conexiones.
+- Escalado y tolerancia a fallos: si hace falta, se pueden levantar más workers, aplicar reintentos
+con espera progresiva y usar una cola de errores (Dead-Letter Queue) para los correos que fallen 
+varias veces.
+
+Con este enfoque repartimos la carga, la aplicación sigue respondiendo rápido y el envío 
+masivo de correos es más estable, controlado y fácil de monitorear, sin depender solo de 
+hacer el servidor más grande.
